@@ -112,16 +112,30 @@ class EG_mobile(unittest.TestCase):
     error_msg_password_valid = "Please choose a password 5-10 characters long, using letters (a-z) and numbers (0-9) only"
     error_msg_password_confirm_valid = "Please choose a password 5-10 characters long, using letters (a-z) and numbers (0-9) only"
 
+    population1 = "!@$%^&*=+"
+    population2 = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
+    population3 = "1234567890"
+    random_invalid_name = str("".join(random.sample(population1,3)))+str("".join(random.sample(population2,3)))+str("".join(random.sample(population3,3)))
+    random_valid_name = str("".join(random.sample(population2,5)))+str("".join(random.sample(",-.",2)))
+    random50 = str("".join(random.sample(population2,50)))
+    random160 = str("".join(random.sample(population2,50)))+str("".join(random.sample(population2,50)))+str("".join(random.sample(population2,50)))
+
+    def rand_val(self, pop, len):
+        return str("".join(random.sample(pop,len)))
+
     def setUp(self):
         time.sleep(1)
 
     def test_invalid_data(self):
-        self.eg.first_name.inputField.send_keys("Bla bla bla ***")
-        self.eg.last_name.inputField.send_keys("Bla bla bla ***")
+        self.eg.first_name.inputField.send_keys(self.random_invalid_name)
+        self.eg.last_name.inputField.send_keys(self.random_invalid_name)
+        self.eg.email.inputField.send_keys(self.random_invalid_name)
 
         self.eg.form.click()
         assert self.eg.first_name.errorMsg.text in self.error_msg_name_valid
         assert self.eg.last_name.errorMsg.text in self.error_msg_name_valid
+        assert self.eg.email.errorMsg.text in self.error_msg_name_valid
+
 
     def tearDown(self):
         time.sleep(2)
@@ -134,16 +148,9 @@ if __name__ == "__main__":
 '''
 class EG_mobile(unittest.TestCase):
 
-    population1 = "!@$%^&*=+"
-    population2 = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
-    population3 = "1234567890"
-    random_invalid_name = str("".join(random.sample(population1,3)))+str("".join(random.sample(population2,3)))+str("".join(random.sample(population3,3)))
-    random_valid_name = str("".join(random.sample(population2,5)))+str("".join(random.sample(",-.",2)))
-    random50 = str("".join(random.sample(population2,50)))
-    random160 = str("".join(random.sample(population2,50)))+str("".join(random.sample(population2,50)))+str("".join(random.sample(population2,50)))
 
-    def rand_val(self, pop, len):
-        return str("".join(random.sample(pop,len)))
+
+
 
     def setUp(self):
         self.driver = webdriver.Firefox()
