@@ -10,8 +10,16 @@ class registration_page:
     def __init__(self,link):
         self.driver = webdriver.Firefox()
         self.driver.get(link)
-        self.firstName = fName(self.driver)
-        self.lastName = lName(self.driver)
+        self.first_name = fName(self.driver)
+        self.last_name = lName(self.driver)
+        self.email = eMail(self.driver)
+        self.phone_number = pNumber(self.driver)
+        self.address = aDdress(self.driver)
+        self.city = cIty(self.driver)
+        self.zip = zIp(self.driver)
+        self.username = userName(self.driver)
+        self.password = passWord(self.driver)
+
         self.form = regForm(self.driver)
 
     def close_page(self):
@@ -27,6 +35,50 @@ class lName:
         self.inputField = driver.find_element_by_class_name("hook_reg_last_name")
         self.errorMsg = driver.find_element_by_xpath("//div[@id='last_name']/div[@class='error_msg']")
 
+class eMail:
+    def __init__(self, driver):
+        self.inputField = driver.find_element_by_class_name("hook_reg_email")
+        self.errorMsg = driver.find_element_by_xpath("//div[@id='email']/div[@class='error_msg']")
+
+class pNumber:
+    def __init__(self, driver):
+        self.inputField = driver.find_element_by_class_name("hook_reg_phone_number")
+        self.errorMsg = driver.find_element_by_xpath("//div[@id='phone_number']/div[@class='error_msg']")
+
+class aDdress:
+    def __init__(self, driver):
+        self.inputField = driver.find_element_by_class_name("hook_reg_address")
+        self.errorMsg = driver.find_element_by_xpath("//div[@id='address']/div[@class='error_msg']")
+
+class cIty:
+    def __init__(self, driver):
+        self.inputField = driver.find_element_by_class_name("hook_reg_city")
+        self.errorMsg = driver.find_element_by_xpath("//div[@id='city']/div[@class='error_msg']")
+
+class zIp:
+    def __init__(self, driver):
+        self.inputField = driver.find_element_by_class_name("hook_reg_zip")
+        self.errorMsg = driver.find_element_by_xpath("//div[@id='zip']/div[@class='error_msg']")
+
+class userName:
+    def __init__(self, driver):
+        self.inputField = driver.find_element_by_class_name("hook_reg_username")
+        self.errorMsg = driver.find_element_by_xpath("//div[@id='username']/div[@class='error_msg']")
+
+class passWord:
+    def __init__(self, driver):
+        self.inputField = driver.find_element_by_class_name("hook_reg_password")
+        self.errorMsg = driver.find_element_by_xpath("//div[@id='password']/div[@class='error_msg']")
+
+class passwordConfirm:
+    def __init__(self, driver):
+        self.inputField = driver.find_element_by_class_name("hook_reg_password_confirm")
+        self.errorMsg = driver.find_element_by_xpath("//div[@id='password_retype']/div[@class='error_msg']")
+
+class regButton:
+    def __init__(self, driver):
+        self.Button = driver.find_element_by_xpath("//div[@class='reg_btn']")
+
 class regForm:
     def __init__(self, driver):
         self.emptyField = driver.find_element_by_class_name("form_box_title")
@@ -39,31 +91,8 @@ class regForm:
 class EG_mobile(unittest.TestCase):
 
     eg = registration_page(link.lnk)
-    error_msg_name_valid = "Please only use letters (a-z) and characters (,-.)"
-
-    def setUp(self):
-        time.sleep(1)
-
-    def test_first_name(self):
-        self.eg.firstName.inputField.send_keys("Bla bla bla ***")
-        self.eg.lastName.inputField.send_keys("Bla bla bla ***")
-        self.eg.form.click()
-        assert self.eg.firstName.errorMsg.text in self.error_msg_name_valid
-        assert self.eg.lastName.errorMsg.text in self.error_msg_name_valid
-
-    def tearDown(self):
-        time.sleep(2)
-        self.eg.close_page()
-
-
-if __name__ == "__main__":
-    unittest.main()
-
-'''
-class EG_mobile(unittest.TestCase):
 
     error_msg_mandatory = "This field is mandatory"
-
     error_msg_name_valid = "Please only use letters (a-z) and characters (,-.)"
     error_msg_name_long = "First name should have 1-50 characters"
     error_msg_last_name_long = "Last name should have 1-50 characters"
@@ -82,6 +111,28 @@ class EG_mobile(unittest.TestCase):
     error_msg_username_valid = "Please select a username using letters, numbers and characters (.-_@). 5-16 characters long"
     error_msg_password_valid = "Please choose a password 5-10 characters long, using letters (a-z) and numbers (0-9) only"
     error_msg_password_confirm_valid = "Please choose a password 5-10 characters long, using letters (a-z) and numbers (0-9) only"
+
+    def setUp(self):
+        time.sleep(1)
+
+    def test_invalid_data(self):
+        self.eg.first_name.inputField.send_keys("Bla bla bla ***")
+        self.eg.last_name.inputField.send_keys("Bla bla bla ***")
+
+        self.eg.form.click()
+        assert self.eg.first_name.errorMsg.text in self.error_msg_name_valid
+        assert self.eg.last_name.errorMsg.text in self.error_msg_name_valid
+
+    def tearDown(self):
+        time.sleep(2)
+        self.eg.close_page()
+
+
+if __name__ == "__main__":
+    unittest.main()
+
+'''
+class EG_mobile(unittest.TestCase):
 
     population1 = "!@$%^&*=+"
     population2 = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
