@@ -6,6 +6,7 @@ __pycache__/
 *.so
 
 # Distribution / packaging
+link.py
 .Python
 env/
 build/
