@@ -134,7 +134,7 @@ class EG_mobile(unittest.TestCase):
         self.eg.form.click()
         assert self.eg.first_name.errorMsg.text in self.error_msg_name_valid
         assert self.eg.last_name.errorMsg.text in self.error_msg_name_valid
-        assert self.eg.email.errorMsg.text in self.error_msg_name_valid
+        assert self.eg.email.errorMsg.text in self.error_msg_email_valid
 
 
     def tearDown(self):
