@@ -1,5 +1,6 @@
 __author__ = 'volodymyrm'
 import random
+import link
 import unittest
 import time
 from selenium import webdriver
@@ -37,7 +38,7 @@ class regForm:
 
 class EG_mobile(unittest.TestCase):
 
-    eg = registration_page("!!!!.....LINK...LINK....LINK....!!!!")
+    eg = registration_page(link.lnk)
     error_msg_name_valid = "Please only use letters (a-z) and characters (,-.)"
 
     def setUp(self):
