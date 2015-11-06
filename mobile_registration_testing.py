@@ -33,7 +33,7 @@ class regForm:
     def click(self):
         self.emptyField.send_keys(Keys.ARROW_DOWN)
 
-#######################         RUNNING TESTS
+#######################         RUNNING TESTS           #####################
 
 class EG_mobile(unittest.TestCase):
 
