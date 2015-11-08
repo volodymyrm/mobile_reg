@@ -34,7 +34,6 @@ class fName:
         self.error_invalid_length = "First name should have 1-50 characters"
         self.error_empty_data = "This field is mandatory"
 
-
 class lName:
     def __init__(self, driver):
         self.inputField = driver.find_element_by_class_name("hook_reg_last_name")
@@ -154,9 +153,9 @@ class EG_mobile(unittest.TestCase):
 
     def test_empty_data(self):
         self.eg.button.click()
-        assert self.eg.first_name.errorMsg in self.eg.first_name.error_empty_data
-        assert self.eg.last_name.errorMsg in self.eg.last_name.error_empty_data
-        assert self.eg.email.errorMsg in self.eg.email.error_empty_data
+        assert self.eg.first_name.errorMsg.text in self.eg.first_name.error_empty_data
+        assert self.eg.last_name.errorMsg.text in self.eg.last_name.error_empty_data
+        assert self.eg.email.errorMsg.text in self.eg.email.error_empty_data
 
         """
         assert self.error_msg_mandatory in self.eg.phone_number.errorMsg.text
