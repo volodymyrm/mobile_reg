@@ -121,30 +121,44 @@ class registration_page:
 
 class EG_mobile(unittest.TestCase):
 
-    population1 = "!@$%^&*=+"
-    population2 = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
-    population3 = "1234567890"
-    random_invalid_name = str("".join(random.sample(population1,3)))+str("".join(random.sample(population2,3)))+str("".join(random.sample(population3,3)))
-    random_valid_name = str("".join(random.sample(population2,5)))+str("".join(random.sample(",-.",2)))
-    random50 = str("".join(random.sample(population2,50)))
-    random160 = str("".join(random.sample(population2,50)))+str("".join(random.sample(population2,50)))+str("".join(random.sample(population2,50)))
+    pop1 = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
+    pop2 = "1234567890"
+    pop3 = "!@$%^&*=+~!@$%^&*=+~!@$%^&*=+~!@$%^&*=+~!@$%^&*=+~!@$%^&*=+~!@$%^&*=+~!@$%^&*=+~!@$%^&*=+~"
 
-    def rand_val(self, pop, len):
-        return str("".join(random.sample(pop,len)))
+    def rand_val_invalid(self,len):
+
+        if len == 1:
+            return str("".join(random.sample(self.pop3,len)))
+        else:
+            return str("".join(random.sample(self.pop1,len/2)) + "".join(random.sample(self.pop3,len/2)))
 
     def setUp(self):
         self.eg = registration_page(link.lnk)
-        self.random_invalid_name = str("".join(random.sample(self.population1,3)))+str("".join(random.sample(self.population2,3)))+str("".join(random.sample(self.population3,3)))
 
     def test_invalid_data(self):
-        self.eg.first_name.inputField.send_keys(self.random_invalid_name)
-        self.eg.last_name.inputField.send_keys(self.random_invalid_name)
-        self.eg.email.inputField.send_keys(self.random_invalid_name)
-
+        self.eg.first_name.inputField.send_keys(self.rand_val_invalid(8))
+        self.eg.last_name.inputField.send_keys(self.rand_val_invalid(8))
+        self.eg.email.inputField.send_keys(self.rand_val_invalid(8))
+        self.eg.phone_number.inputField.send_keys(self.rand_val_invalid(8))
+        self.eg.address.inputField.send_keys(self.rand_val_invalid(8))
+        self.eg.city.inputField.send_keys(self.rand_val_invalid(8))
+        self.eg.zip.inputField.send_keys(self.rand_val_invalid(8))
+        self.eg.username.inputField.send_keys(self.rand_val_invalid(8))
+        value = self.rand_val_invalid(8)
+        self.eg.password.inputField.send_keys(value)
+        self.eg.password_confirm.inputField.send_keys(value)
         self.eg.form.click()
+
         assert self.eg.first_name.errorMsg.text in self.eg.first_name.error_invalid_characters
         assert self.eg.last_name.errorMsg.text in self.eg.last_name.error_invalid_characters
         assert self.eg.email.errorMsg.text in self.eg.email.error_invalid_characters
+        assert self.eg.phone_number.errorMsg.text in self.eg.phone_number.error_invalid_characters
+        assert self.eg.address.errorMsg.text in self.eg.address.error_invalid_characters
+        assert self.eg.city.errorMsg.text in self.eg.city.error_invalid_characters
+        assert self.eg.zip.errorMsg.text in self.eg.zip.error_invalid_characters
+        assert self.eg.username.errorMsg.text in self.eg.username.error_invalid_characters
+        assert self.eg.password.errorMsg.text in self.eg.password.error_invalid_characters
+        assert self.eg.password_confirm.errorMsg.text in self.eg.password_confirm.error_invalid_characters
 
 
     def test_empty_data(self):
