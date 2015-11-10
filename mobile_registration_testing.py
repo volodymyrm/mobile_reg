@@ -6,26 +6,6 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-class registration_page:
-    def __init__(self,link):
-        self.driver = webdriver.Firefox()
-        self.driver.get(link)
-        self.first_name = fName(self.driver)
-        self.last_name = lName(self.driver)
-        self.email = eMail(self.driver)
-        self.phone_number = pNumber(self.driver)
-        self.address = aDdress(self.driver)
-        self.city = cIty(self.driver)
-        self.zip = zIp(self.driver)
-        self.username = userName(self.driver)
-        self.password = passWord(self.driver)
-        self.password_confirm = passwordConfirm(self.driver)
-        self.form = regForm(self.driver)
-        self.button = regButton(self.driver)
-
-    def close_page(self):
-        self.driver.close()
-
 class fName:
     def __init__(self, driver):
         self.inputField = driver.find_element_by_class_name("hook_reg_first_name")
@@ -121,6 +101,22 @@ class regForm:
     def click(self):
         self.emptyField.send_keys(Keys.ARROW_DOWN)
 
+class registration_page:
+    def __init__(self,link):
+        self.driver = webdriver.Firefox()
+        self.driver.get(link)
+        self.first_name = fName(self.driver)
+        self.last_name = lName(self.driver)
+        self.email = eMail(self.driver)
+        self.phone_number = pNumber(self.driver)
+        self.address = aDdress(self.driver)
+        self.city = cIty(self.driver)
+        self.zip = zIp(self.driver)
+        self.username = userName(self.driver)
+        self.password = passWord(self.driver)
+        self.password_confirm = passwordConfirm(self.driver)
+        self.form = regForm(self.driver)
+        self.button = regButton(self.driver)
 #######################         RUNNING TESTS           #####################
 
 class EG_mobile(unittest.TestCase):
@@ -139,7 +135,8 @@ class EG_mobile(unittest.TestCase):
         return str("".join(random.sample(pop,len)))
 
     def setUp(self):
-        time.sleep(1)
+        self.driver = self.eg.driver
+        self.random_invalid_name = str("".join(random.sample(self.population1,3)))+str("".join(random.sample(self.population2,3)))+str("".join(random.sample(self.population3,3)))
 
     def test_invalid_data(self):
         self.eg.first_name.inputField.send_keys(self.random_invalid_name)
@@ -156,29 +153,17 @@ class EG_mobile(unittest.TestCase):
         assert self.eg.first_name.errorMsg.text in self.eg.first_name.error_empty_data
         assert self.eg.last_name.errorMsg.text in self.eg.last_name.error_empty_data
         assert self.eg.email.errorMsg.text in self.eg.email.error_empty_data
-
-        """
-        assert self.error_msg_mandatory in self.eg.phone_number.errorMsg.text
-        assert self.error_msg_mandatory in self.eg.address.errorMsg.text
-        assert self.error_msg_mandatory in self.eg.city.errorMsg.text
-        assert self.error_msg_mandatory in self.eg.zip.errorMsg.text
-        assert self.error_msg_mandatory in self.eg.username.errorMsg.text
-        assert self.error_msg_mandatory in self.eg.password_confirm.errorMsg.text
-        """
+        assert self.eg.phone_number.errorMsg.text in self.eg.phone_number.error_empty_data
+        assert self.eg.address.errorMsg.text in self.eg.address.error_empty_data
+        assert self.eg.city.errorMsg.text in self.eg.city.error_empty_data
+        assert self.eg.zip.errorMsg.text in self.eg.zip.error_empty_data
+        assert self.eg.username.errorMsg.text in self.eg.username.error_empty_data
+        assert self.eg.password.errorMsg.text in self.eg.password.error_empty_data
+        assert self.eg.password_confirm.errorMsg.text in self.eg.password_confirm.error_empty_data
 
     def tearDown(self):
         time.sleep(2)
-        self.eg.close_page()
-
+        self.driver.close()
 
 if __name__ == "__main__":
     unittest.main()
-
-'''
-
-    def test_long_data(self):
-        self.firstNameField.send_keys(self.random50)
-        self.lastNameField.send_keys(self.random50)
-        self.addressField.send_keys(self.random160)
-
-'''
