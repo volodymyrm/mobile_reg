@@ -5,6 +5,9 @@ import unittest
 import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 class fName:
     def __init__(self, driver):
@@ -132,6 +135,12 @@ class EG_mobile(unittest.TestCase):
         else:
             return str("".join(random.sample(self.pop1,len/2)) + "".join(random.sample(self.pop3,len/2)))
 
+    def rand_val_valid(self,len):
+        return str("".join(random.sample(self.pop1,len)))
+
+    def rand_email(self):
+        return str("".join(random.sample(self.pop1,5)) + "@" + "".join(random.sample(self.pop1,5))+ "." + "".join(random.sample(self.pop1,3)))
+
     def setUp(self):
         self.eg = registration_page(link.lnk)
 
@@ -173,6 +182,23 @@ class EG_mobile(unittest.TestCase):
         assert self.eg.username.errorMsg.text in self.eg.username.error_empty_data
         assert self.eg.password.errorMsg.text in self.eg.password.error_empty_data
         assert self.eg.password_confirm.errorMsg.text in self.eg.password_confirm.error_empty_data
+
+    def test_valid_data(self):
+        self.eg.first_name.inputField.send_keys(self.rand_val_valid(8))
+        self.eg.last_name.inputField.send_keys(self.rand_val_valid(8))
+        self.eg.email.inputField.send_keys(self.rand_email())
+        self.eg.phone_number.inputField.send_keys("1234512345")
+        self.eg.address.inputField.send_keys(self.rand_val_valid(8))
+        self.eg.city.inputField.send_keys(self.rand_val_valid(8))
+        self.eg.zip.inputField.send_keys(self.rand_val_valid(8))
+        self.eg.username.inputField.send_keys(self.rand_val_valid(8))
+        value = self.rand_val_valid(8)
+        self.eg.password.inputField.send_keys(value)
+        self.eg.password_confirm.inputField.send_keys(value)
+        self.eg.button.click()
+        time.sleep(30)
+        self.element = WebDriverWait(self.eg.driver, 30).until(EC.presence_of_element_located((By.CLASS_NAME, "submit_error_text_msg")))
+        assert self.element.text in "Registration Failed!"
 
     def tearDown(self):
         time.sleep(5)
