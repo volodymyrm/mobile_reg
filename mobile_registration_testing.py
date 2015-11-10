@@ -121,8 +121,6 @@ class registration_page:
 
 class EG_mobile(unittest.TestCase):
 
-    eg = registration_page(link.lnk)
-
     population1 = "!@$%^&*=+"
     population2 = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
     population3 = "1234567890"
@@ -135,7 +133,7 @@ class EG_mobile(unittest.TestCase):
         return str("".join(random.sample(pop,len)))
 
     def setUp(self):
-        self.driver = self.eg.driver
+        self.eg = registration_page(link.lnk)
         self.random_invalid_name = str("".join(random.sample(self.population1,3)))+str("".join(random.sample(self.population2,3)))+str("".join(random.sample(self.population3,3)))
 
     def test_invalid_data(self):
@@ -147,6 +145,7 @@ class EG_mobile(unittest.TestCase):
         assert self.eg.first_name.errorMsg.text in self.eg.first_name.error_invalid_characters
         assert self.eg.last_name.errorMsg.text in self.eg.last_name.error_invalid_characters
         assert self.eg.email.errorMsg.text in self.eg.email.error_invalid_characters
+
 
     def test_empty_data(self):
         self.eg.button.click()
@@ -162,8 +161,8 @@ class EG_mobile(unittest.TestCase):
         assert self.eg.password_confirm.errorMsg.text in self.eg.password_confirm.error_empty_data
 
     def tearDown(self):
-        time.sleep(2)
-        self.driver.close()
+        time.sleep(5)
+        self.eg.driver.close()
 
 if __name__ == "__main__":
     unittest.main()
