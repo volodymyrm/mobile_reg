@@ -5,9 +5,6 @@ import unittest
 import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 class fName:
     def __init__(self, driver):
@@ -120,12 +117,13 @@ class registration_page:
         self.password_confirm = passwordConfirm(self.driver)
         self.form = regForm(self.driver)
         self.button = regButton(self.driver)
-#######################         RUNNING TESTS           #####################
+
+#---------------------------------------- RUNNING TESTS----------------------------------------------
 
 class EG_mobile(unittest.TestCase):
 
     pop1 = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
-    pop2 = "1234567890"
+    pop2 = "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
     pop3 = "!@$%^&*=+~!@$%^&*=+~!@$%^&*=+~!@$%^&*=+~!@$%^&*=+~!@$%^&*=+~!@$%^&*=+~!@$%^&*=+~!@$%^&*=+~"
 
     def rand_val_invalid(self,len):
@@ -140,6 +138,9 @@ class EG_mobile(unittest.TestCase):
 
     def rand_email(self):
         return str("".join(random.sample(self.pop1,5)) + "@" + "".join(random.sample(self.pop1,5))+ "." + "".join(random.sample(self.pop1,3)))
+
+    def rand_val_digit(self, len):
+        return str("".join(random.sample(self.pop2,len)))
 
     def setUp(self):
         self.eg = registration_page(link.lnk)
@@ -158,36 +159,35 @@ class EG_mobile(unittest.TestCase):
         self.eg.password_confirm.inputField.send_keys(value)
         self.eg.form.click()
 
-        assert self.eg.first_name.errorMsg.text in self.eg.first_name.error_invalid_characters
-        assert self.eg.last_name.errorMsg.text in self.eg.last_name.error_invalid_characters
-        assert self.eg.email.errorMsg.text in self.eg.email.error_invalid_characters
-        assert self.eg.phone_number.errorMsg.text in self.eg.phone_number.error_invalid_characters
-        assert self.eg.address.errorMsg.text in self.eg.address.error_invalid_characters
-        assert self.eg.city.errorMsg.text in self.eg.city.error_invalid_characters
-        assert self.eg.zip.errorMsg.text in self.eg.zip.error_invalid_characters
-        assert self.eg.username.errorMsg.text in self.eg.username.error_invalid_characters
-        assert self.eg.password.errorMsg.text in self.eg.password.error_invalid_characters
-        assert self.eg.password_confirm.errorMsg.text in self.eg.password_confirm.error_invalid_characters
-
+        assert self.eg.first_name.errorMsg.text, self.eg.first_name.error_invalid_characters
+        assert self.eg.last_name.errorMsg.text, self.eg.last_name.error_invalid_characters
+        assert self.eg.email.errorMsg.text, self.eg.email.error_invalid_characters
+        assert self.eg.phone_number.errorMsg.text, self.eg.phone_number.error_invalid_characters
+        assert self.eg.address.errorMsg.text, self.eg.address.error_invalid_characters
+        assert self.eg.city.errorMsg.text, self.eg.city.error_invalid_characters
+        assert self.eg.zip.errorMsg.text, self.eg.zip.error_invalid_characters
+        assert self.eg.username.errorMsg.text, self.eg.username.error_invalid_characters
+        assert self.eg.password.errorMsg.text, self.eg.password.error_invalid_characters
+        assert self.eg.password_confirm.errorMsg.text, self.eg.password_confirm.error_invalid_characters
 
     def test_empty_data(self):
         self.eg.button.click()
-        assert self.eg.first_name.errorMsg.text in self.eg.first_name.error_empty_data
-        assert self.eg.last_name.errorMsg.text in self.eg.last_name.error_empty_data
-        assert self.eg.email.errorMsg.text in self.eg.email.error_empty_data
-        assert self.eg.phone_number.errorMsg.text in self.eg.phone_number.error_empty_data
-        assert self.eg.address.errorMsg.text in self.eg.address.error_empty_data
-        assert self.eg.city.errorMsg.text in self.eg.city.error_empty_data
-        assert self.eg.zip.errorMsg.text in self.eg.zip.error_empty_data
-        assert self.eg.username.errorMsg.text in self.eg.username.error_empty_data
-        assert self.eg.password.errorMsg.text in self.eg.password.error_empty_data
-        assert self.eg.password_confirm.errorMsg.text in self.eg.password_confirm.error_empty_data
+        assert self.eg.first_name.errorMsg.text, self.eg.first_name.error_empty_data
+        assert self.eg.last_name.errorMsg.text, self.eg.last_name.error_empty_data
+        assert self.eg.email.errorMsg.text, self.eg.email.error_empty_data
+        assert self.eg.phone_number.errorMsg.text, self.eg.phone_number.error_empty_data
+        assert self.eg.address.errorMsg.text, self.eg.address.error_empty_data
+        assert self.eg.city.errorMsg.text, self.eg.city.error_empty_data
+        assert self.eg.zip.errorMsg.text, self.eg.zip.error_empty_data
+        assert self.eg.username.errorMsg.text, self.eg.username.error_empty_data
+        assert self.eg.password.errorMsg.text, self.eg.password.error_empty_data
+        assert self.eg.password_confirm.errorMsg.text, self.eg.password_confirm.error_empty_data
 
     def test_valid_data(self):
         self.eg.first_name.inputField.send_keys(self.rand_val_valid(8))
         self.eg.last_name.inputField.send_keys(self.rand_val_valid(8))
         self.eg.email.inputField.send_keys(self.rand_email())
-        self.eg.phone_number.inputField.send_keys("1234512345")
+        self.eg.phone_number.inputField.send_keys(self.rand_val_digit(10))
         self.eg.address.inputField.send_keys(self.rand_val_valid(8))
         self.eg.city.inputField.send_keys(self.rand_val_valid(8))
         self.eg.zip.inputField.send_keys(self.rand_val_valid(8))
@@ -198,10 +198,44 @@ class EG_mobile(unittest.TestCase):
         self.eg.button.click()
 
         time.sleep(30)
-        assert self.eg.driver.find_element_by_class_name("submit_error_text_msg").text in "Registration Failed!"
+        assert self.eg.driver.find_element_by_class_name("submit_error_text_msg").text, "Registration Failed!"
+
+    def test_short_data(self):
+        self.eg.phone_number.inputField.send_keys(self.rand_val_digit(8))
+        self.eg.username.inputField.send_keys(self.rand_val_valid(4))
+        value = self.rand_val_valid(4)
+        self.eg.password.inputField.send_keys(value)
+        self.eg.password_confirm.inputField.send_keys(value)
+
+        self.eg.button.click()
+
+        assert self.eg.phone_number.errorMsg.text, self.eg.phone_number.error_invalid_length
+        assert self.eg.username.errorMsg.text, self.eg.username.error_invalid_length
+        assert self.eg.password.errorMsg.text, self.eg.password.error_invalid_length
+        assert self.eg.password_confirm.errorMsg.text, self.eg.password_confirm.error_invalid_length
+
+    def test_long_data(self):
+        self.eg.first_name.inputField.send_keys(self.rand_val_valid(51))
+        self.eg.last_name.inputField.send_keys(self.rand_val_valid(51))
+        self.eg.phone_number.inputField.send_keys(self.rand_val_digit(21))
+        self.eg.zip.inputField.send_keys(self.rand_val_digit(21))
+        self.eg.username.inputField.send_keys(self.rand_val_valid(17))
+        value = self.rand_val_valid(11)
+        self.eg.password.inputField.send_keys(value)
+        self.eg.password_confirm.inputField.send_keys(value)
+
+        self.eg.button.click()
+
+        assert self.eg.first_name.errorMsg.text, self.eg.first_name.error_invalid_length
+        assert self.eg.last_name.errorMsg.text, self.eg.last_name.error_invalid_length
+        assert self.eg.phone_number.errorMsg.text, self.eg.phone_number.error_invalid_length
+        assert self.eg.zip.errorMsg.text, self.eg.zip.error_invalid_length
+        assert self.eg.username.errorMsg.text, self.eg.username.error_invalid_length
+        assert self.eg.password.errorMsg.text, self.eg.password.error_invalid_length
+        assert self.eg.password_confirm.errorMsg.text, self.eg.password_confirm.error_invalid_length
 
     def tearDown(self):
-        time.sleep(5)
+        #time.sleep(2)
         self.eg.driver.close()
 
 if __name__ == "__main__":
