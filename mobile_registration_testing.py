@@ -86,6 +86,7 @@ class passwordConfirm:
         self.error_invalid_characters = "Please choose a password 5-10 characters long, using letters (a-z) and numbers (0-9) only"
         self.error_invalid_length = "Please choose a password 5-10 characters long, using letters (a-z) and numbers (0-9) only"
         self.error_empty_data = "This field is mandatory"
+        self.error_password_missmatch = "The passwords you typed do not match"
 
 class regButton:
     def __init__(self, driver):
@@ -159,29 +160,29 @@ class EG_mobile(unittest.TestCase):
         self.eg.password_confirm.inputField.send_keys(value)
         self.eg.form.click()
 
-        assert self.eg.first_name.errorMsg.text, self.eg.first_name.error_invalid_characters
-        assert self.eg.last_name.errorMsg.text, self.eg.last_name.error_invalid_characters
-        assert self.eg.email.errorMsg.text, self.eg.email.error_invalid_characters
-        assert self.eg.phone_number.errorMsg.text, self.eg.phone_number.error_invalid_characters
-        assert self.eg.address.errorMsg.text, self.eg.address.error_invalid_characters
-        assert self.eg.city.errorMsg.text, self.eg.city.error_invalid_characters
-        assert self.eg.zip.errorMsg.text, self.eg.zip.error_invalid_characters
-        assert self.eg.username.errorMsg.text, self.eg.username.error_invalid_characters
-        assert self.eg.password.errorMsg.text, self.eg.password.error_invalid_characters
-        assert self.eg.password_confirm.errorMsg.text, self.eg.password_confirm.error_invalid_characters
+        assert self.eg.first_name.errorMsg.text == self.eg.first_name.error_invalid_characters
+        assert self.eg.last_name.errorMsg.text == self.eg.last_name.error_invalid_characters
+        assert self.eg.email.errorMsg.text == self.eg.email.error_invalid_characters
+        assert self.eg.phone_number.errorMsg.text == self.eg.phone_number.error_invalid_characters
+        assert self.eg.address.errorMsg.text == self.eg.address.error_invalid_characters
+        assert self.eg.city.errorMsg.text == self.eg.city.error_invalid_characters
+        assert self.eg.zip.errorMsg.text == self.eg.zip.error_invalid_characters
+        assert self.eg.username.errorMsg.text == self.eg.username.error_invalid_characters
+        assert self.eg.password.errorMsg.text == self.eg.password.error_invalid_characters
+        assert self.eg.password_confirm.errorMsg.text == self.eg.password_confirm.error_invalid_characters
 
     def test_empty_data(self):
         self.eg.button.click()
-        assert self.eg.first_name.errorMsg.text, self.eg.first_name.error_empty_data
-        assert self.eg.last_name.errorMsg.text, self.eg.last_name.error_empty_data
-        assert self.eg.email.errorMsg.text, self.eg.email.error_empty_data
-        assert self.eg.phone_number.errorMsg.text, self.eg.phone_number.error_empty_data
-        assert self.eg.address.errorMsg.text, self.eg.address.error_empty_data
-        assert self.eg.city.errorMsg.text, self.eg.city.error_empty_data
-        assert self.eg.zip.errorMsg.text, self.eg.zip.error_empty_data
-        assert self.eg.username.errorMsg.text, self.eg.username.error_empty_data
-        assert self.eg.password.errorMsg.text, self.eg.password.error_empty_data
-        assert self.eg.password_confirm.errorMsg.text, self.eg.password_confirm.error_empty_data
+        assert self.eg.first_name.errorMsg.text == self.eg.first_name.error_empty_data
+        assert self.eg.last_name.errorMsg.text == self.eg.last_name.error_empty_data
+        assert self.eg.email.errorMsg.text == self.eg.email.error_empty_data
+        assert self.eg.phone_number.errorMsg.text == self.eg.phone_number.error_empty_data
+        assert self.eg.address.errorMsg.text == self.eg.address.error_empty_data
+        assert self.eg.city.errorMsg.text == self.eg.city.error_empty_data
+        assert self.eg.zip.errorMsg.text == self.eg.zip.error_empty_data
+        assert self.eg.username.errorMsg.text == self.eg.username.error_empty_data
+        assert self.eg.password.errorMsg.text == self.eg.password.error_empty_data
+        assert self.eg.password_confirm.errorMsg.text == self.eg.password_confirm.error_empty_data
 
     def test_valid_data(self):
         self.eg.first_name.inputField.send_keys(self.rand_val_valid(8))
@@ -209,10 +210,10 @@ class EG_mobile(unittest.TestCase):
 
         self.eg.button.click()
 
-        assert self.eg.phone_number.errorMsg.text, self.eg.phone_number.error_invalid_length
-        assert self.eg.username.errorMsg.text, self.eg.username.error_invalid_length
-        assert self.eg.password.errorMsg.text, self.eg.password.error_invalid_length
-        assert self.eg.password_confirm.errorMsg.text, self.eg.password_confirm.error_invalid_length
+        assert self.eg.phone_number.errorMsg.text == self.eg.phone_number.error_invalid_length
+        assert self.eg.username.errorMsg.text == self.eg.username.error_invalid_length
+        assert self.eg.password.errorMsg.text == self.eg.password.error_invalid_length
+        assert self.eg.password_confirm.errorMsg.text == self.eg.password_confirm.error_invalid_length
 
     def test_long_data(self):
         self.eg.first_name.inputField.send_keys(self.rand_val_valid(51))
@@ -226,13 +227,19 @@ class EG_mobile(unittest.TestCase):
 
         self.eg.button.click()
 
-        assert self.eg.first_name.errorMsg.text, self.eg.first_name.error_invalid_length
-        assert self.eg.last_name.errorMsg.text, self.eg.last_name.error_invalid_length
-        assert self.eg.phone_number.errorMsg.text, self.eg.phone_number.error_invalid_length
-        assert self.eg.zip.errorMsg.text, self.eg.zip.error_invalid_length
-        assert self.eg.username.errorMsg.text, self.eg.username.error_invalid_length
-        assert self.eg.password.errorMsg.text, self.eg.password.error_invalid_length
-        assert self.eg.password_confirm.errorMsg.text, self.eg.password_confirm.error_invalid_length
+        assert self.eg.first_name.errorMsg.text == self.eg.first_name.error_invalid_length
+        assert self.eg.last_name.errorMsg.text == self.eg.last_name.error_invalid_length
+        assert self.eg.phone_number.errorMsg.text == self.eg.phone_number.error_invalid_length
+        assert self.eg.zip.errorMsg.text == self.eg.zip.error_invalid_length
+        assert self.eg.username.errorMsg.text == self.eg.username.error_invalid_length
+        assert self.eg.password.errorMsg.text == self.eg.password.error_invalid_length
+        assert self.eg.password_confirm.errorMsg.text == self.eg.password_confirm.error_invalid_length
+
+    def test_password_missmatch(self):
+        self.eg.password.inputField.send_keys(self.rand_val_valid(10))
+        self.eg.password_confirm.inputField.send_keys(self.rand_val_valid(10))
+        self.eg.button.click()
+        assert self.eg.password_confirm.errorMsg.text == self.eg.password_confirm.error_password_missmatch
 
     def tearDown(self):
         #time.sleep(2)
