@@ -196,9 +196,9 @@ class EG_mobile(unittest.TestCase):
         self.eg.password.inputField.send_keys(value)
         self.eg.password_confirm.inputField.send_keys(value)
         self.eg.button.click()
+
         time.sleep(30)
-        self.element = WebDriverWait(self.eg.driver, 30).until(EC.presence_of_element_located((By.CLASS_NAME, "submit_error_text_msg")))
-        assert self.element.text in "Registration Failed!"
+        assert self.eg.driver.find_element_by_class_name("submit_error_text_msg").text in "Registration Failed!"
 
     def tearDown(self):
         time.sleep(5)
