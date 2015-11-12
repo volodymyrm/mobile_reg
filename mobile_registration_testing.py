@@ -123,7 +123,7 @@ class registration_page:
 
 class EG_mobile(unittest.TestCase):
 
-    pop1 = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
+    pop1 = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNMqwertyuiop"
     pop2 = "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
     pop3 = "!@$%^&*=+~!@$%^&*=+~!@$%^&*=+~!@$%^&*=+~!@$%^&*=+~!@$%^&*=+~!@$%^&*=+~!@$%^&*=+~!@$%^&*=+~"
 
@@ -132,7 +132,7 @@ class EG_mobile(unittest.TestCase):
         if len == 1:
             return str("".join(random.sample(self.pop3,len)))
         else:
-            return str("".join(random.sample(self.pop1,len/2)) + "".join(random.sample(self.pop3,len/2)))
+            return str("".join(random.sample(self.pop1,int(len/2))) + "".join(random.sample(self.pop3,int(len/2))))
 
     def rand_val_valid(self,len):
         return str("".join(random.sample(self.pop1,len)))
@@ -203,6 +203,7 @@ class EG_mobile(unittest.TestCase):
 
     def test_short_data(self):
         self.eg.phone_number.inputField.send_keys(self.rand_val_digit(8))
+        self.eg.address.inputField.send_keys(self.rand_val_valid(1))
         self.eg.username.inputField.send_keys(self.rand_val_valid(4))
         value = self.rand_val_valid(4)
         self.eg.password.inputField.send_keys(value)
@@ -211,6 +212,7 @@ class EG_mobile(unittest.TestCase):
         self.eg.button.click()
 
         assert self.eg.phone_number.errorMsg.text == self.eg.phone_number.error_invalid_length
+        assert self.eg.address.errorMsg.text == self.eg.address.error_invalid_length
         assert self.eg.username.errorMsg.text == self.eg.username.error_invalid_length
         assert self.eg.password.errorMsg.text == self.eg.password.error_invalid_length
         assert self.eg.password_confirm.errorMsg.text == self.eg.password_confirm.error_invalid_length
@@ -219,17 +221,20 @@ class EG_mobile(unittest.TestCase):
         self.eg.first_name.inputField.send_keys(self.rand_val_valid(51))
         self.eg.last_name.inputField.send_keys(self.rand_val_valid(51))
         self.eg.phone_number.inputField.send_keys(self.rand_val_digit(21))
+        self.eg.address.inputField.send_keys(self.rand_val_valid(161))
         self.eg.zip.inputField.send_keys(self.rand_val_digit(21))
         self.eg.username.inputField.send_keys(self.rand_val_valid(17))
         value = self.rand_val_valid(11)
         self.eg.password.inputField.send_keys(value)
         self.eg.password_confirm.inputField.send_keys(value)
 
+
         self.eg.button.click()
 
         assert self.eg.first_name.errorMsg.text == self.eg.first_name.error_invalid_length
         assert self.eg.last_name.errorMsg.text == self.eg.last_name.error_invalid_length
         assert self.eg.phone_number.errorMsg.text == self.eg.phone_number.error_invalid_length
+        assert self.eg.address.errorMsg.text == self.eg.address.error_invalid_length
         assert self.eg.zip.errorMsg.text == self.eg.zip.error_invalid_length
         assert self.eg.username.errorMsg.text == self.eg.username.error_invalid_length
         assert self.eg.password.errorMsg.text == self.eg.password.error_invalid_length
